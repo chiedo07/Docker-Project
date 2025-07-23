@@ -29,7 +29,7 @@ steps:
 
 
 # 🔍 Terraform Plan
-- script: terraform plan -out=tfplan
+- script: terraform plan 
   displayName: 'Terraform Plan'
   workingDirectory: $(Build.SourcesDirectory)/project-2-cicd-pipeline
 
