@@ -40,7 +40,7 @@ steps:
     ARM_TENANT_ID: $(ARM_TENANT_ID)
 
 # 🚀 Terraform Apply
-- script: terraform apply -auto-approve tfplan
+- script: terraform apply -auto-approve
   displayName: 'Terraform Apply'
   workingDirectory: $(Build.SourcesDirectory)/project-2-cicd-pipeline
 
