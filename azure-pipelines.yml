@@ -5,7 +5,7 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
-  - group: terraform-secrets  # your variable group with ARM credentials
+  - group: Docker-Project-Variable  # your variable group with ARM credentials
 
 steps:
 
