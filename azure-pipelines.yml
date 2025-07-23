@@ -15,6 +15,13 @@ steps:
   inputs:
     terraformVersion: 'latest'
 
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      ls
+      pwd
+
 # 📂 Terraform Init
 - script: terraform init
   displayName: 'Terraform Init'
