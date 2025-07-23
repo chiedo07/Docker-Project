@@ -21,7 +21,7 @@ resource "azurerm_resource_group" "acr_rg" {
 }
 
 resource "azurerm_container_registry" "acr" {
-  name                = "Docker-chiedo"
+  name                = "Dockerchiedo"
   resource_group_name = azurerm_resource_group.acr_rg.name
   location            = azurerm_resource_group.acr_rg.location
   sku                 = "Basic"
