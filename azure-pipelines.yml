@@ -4,6 +4,7 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
+
 variables:
   acrName: 'Dockerchiedo'  # ✅ change to your ACR name (not the full URL)
   acrLoginServer: 'youracrname.azurecr.io'
@@ -21,6 +22,9 @@ steps:
       echo "Logging in to ACR..."
       az acr login --name ${{ variables.acrName }}
 
+- task: DockerInstaller@0
+  inputs:
+    dockerVersion: '17.09.0-ce'
 - task: Docker@2
   displayName: 'Build and Push Docker Image'
   inputs:
