@@ -1,0 +1,32 @@
+trigger:
+- main  # or your target branch
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  acrName: 'youracrname'  # ✅ change to your ACR name (not the full URL)
+  acrLoginServer: 'youracrname.azurecr.io'
+  imageName: 'weather-api'
+  imageTag: 'latest'
+
+steps:
+- task: AzureCLI@2
+  displayName: 'Login to Azure'
+  inputs:
+    azureSubscription: '<your-service-connection-name>'  # 🔁 must have access to RG 'chid'
+    scriptType: 'bash'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      echo "Logging in to ACR..."
+      az acr login --name ${{ variables.acrName }}
+
+- task: Docker@2
+  displayName: 'Build and Push Docker Image'
+  inputs:
+    containerRegistry: '<your-service-connection-name>'  # 🔁 must allow Docker push to ACR
+    repository: '$(imageName)'
+    command: 'buildAndPush'
+    Dockerfile: '**/Dockerfile'   # Adjust path if needed
+    tags: |
+      $(imageTag)
