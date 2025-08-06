@@ -38,8 +38,9 @@ steps:
     inlineScript: |
       echo "Logging in to ACR..."
       az acr login --name ${{ variables.acrName }}
-      docker build -f /home/vsts/work/1/s/project-2-cicd-pipeline/Dockerfile
-      docker push $acrName.azurecr.io/$IMAGE_NAME
+      docker build -t $(acrName).azurecr.io/$(imageName):$(imageTag) .
+      docker push $(acrName).azurecr.io/$IMAGE_NAME
+    workingDirectory: $/home/vsts/work/1/s/project-2-cicd-pipeline/Dockerfile
 
 
 #ACR_NAME=$(ACR_NAME)
@@ -55,3 +56,5 @@ steps:
 
 # Output the image name
 #echo "##vso[task.setvariable variable=imageName]$ACR_NAME.azurecr.io/$IMAGE_NAME"
+
+
