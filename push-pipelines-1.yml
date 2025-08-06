@@ -36,12 +36,15 @@ steps:
     scriptType: 'bash'
     scriptLocation: 'inlineScript'
     inlineScript: |
-      echo "Logging in to ACR..."
-      az acr login --name ${{ variables.acrName }}
-      docker build -t $(acrName).azurecr.io/$(imagchi):$(imageTag) .
-      docker push $(acrName).azurecr.io/$imagchi
-    workingDirectory: $/home/vsts/work/1/s/project-2-cicd-pipeline/Dockerfile
+       echo "Logging in to ACR..."
+       az acr login --name $(acrName)
 
+       echo "Building Docker image..."
+       docker build -t $(acrName).azurecr.io/$(imagename):$(imageTag) .
+
+       echo "Pushing Docker image..."
+       docker push $(acrName).azurecr.io/$(imagename):$(imageTag)
+    workingDirectory: $(Build.SourcesDirectory)/project-2-cicd-pipeline
 
 #ACR_NAME=$(ACR_NAME)
 #IMAGE_NAME=businessmonitorapp:latest
