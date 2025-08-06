@@ -8,7 +8,14 @@ variables:
   acrName: 'Dockerchiedo'
   imageName: 'myapp'
 
+
 steps:
+- checkout: self  # ✅ Make sure you're checking out your repo
+- script: |
+    echo "Listing source directory..."
+    ls -la $(Build.SourcesDirectory)
+  displayName: 'Debug: List Source Directory'
+
 - task: AzureCLI@2
   inputs:
     azureSubscription: 'Azure-chiedo'  # Replace with your actual service connection name
