@@ -22,7 +22,8 @@ steps:
     script: |
       # Write your commands here
       
-      ls /home/vsts/work/1/s
+      ls /home/vsts/work/1/s/project-2-cicd-pipeline
+
 
 - task: DockerInstaller@0
   inputs:
