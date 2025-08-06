@@ -14,7 +14,14 @@ provider "azurerm" {
   features {}
 
 }
-
+terraform {
+  backend "azurerm" {
+    resource_group_name  = "statefile-rhg"
+    storage_account_name = "statefilechiedo"
+    container_name       = "docker-container"
+    key                  = "terraform.tfstate"
+  }
+}
 resource "azurerm_resource_group" "acr_rg" {
   name     = "Docker-acr-rg"
   location = "East US"
