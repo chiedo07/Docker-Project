@@ -13,12 +13,12 @@ steps:
 - checkout: self  # ✅ Make sure you're checking out your repo
 - script: |
     echo "Listing source directory..."
-    ls -la $(Build.SourcesDirectory)
+    ls -la $(Build.SourcesDirectory)/Dockerfile
   displayName: 'Debug: List Source Directory'
 
 - task: AzureCLI@2
   inputs:
-    azureSubscription: 'Azure-chiedo'  # Replace with your actual service connection name
+    azureSubscription: 'azure-chiedo'  # Replace with your actual service connection name
     scriptType: 'bash'
     scriptLocation: 'inlineScript'
     inlineScript: |
