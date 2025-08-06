@@ -6,7 +6,7 @@ pool:
 
 
 variables:
-  acrName: 'Dockerchiedo'  # ✅ change to your ACR name (not the full URL)
+  acrName: 'dockerchiedo'  # ✅ change to your ACR name (not the full URL)
   acrLoginServer: 'youracrname.azurecr.io'
   imageName: 'DockerImage'
   imageTag: 'latest'
