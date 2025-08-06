@@ -1,5 +1,5 @@
 trigger:
-- main  # or your target branch
+- none  # or your target branch
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -23,7 +23,7 @@ steps:
 - task: AzureCLI@2
   displayName: 'Login to Azure'
   inputs:
-    azureSubscription: '<chiedozie>'  # 🔁 must have access to RG 'chid'
+    azureSubscription: 'azure-chiedo'  # 🔁 must have access to RG 'chid'
     scriptType: 'bash'
     scriptLocation: 'inlineScript'
     inlineScript: |
@@ -33,16 +33,16 @@ steps:
       docker push $ACR_NAME.azurecr.io/$IMAGE_NAME
 
 
-ACR_NAME=$(ACR_NAME)
-IMAGE_NAME=businessmonitorapp:latest
+#ACR_NAME=$(ACR_NAME)
+#IMAGE_NAME=businessmonitorapp:latest
 
 # Login to Azure Container Registry
-az acr login --name $ACR_NAME
+#az acr login --name $ACR_NAME
 
 # Build the Docker image
 
 # Push the Docker image to ACR
-docker push $ACR_NAME.azurecr.io/$IMAGE_NAME
+#docker push $ACR_NAME.azurecr.io/$IMAGE_NAME
 
 # Output the image name
-echo "##vso[task.setvariable variable=imageName]$ACR_NAME.azurecr.io/$IMAGE_NAME"
+#echo "##vso[task.setvariable variable=imageName]$ACR_NAME.azurecr.io/$IMAGE_NAME"
