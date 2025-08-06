@@ -24,4 +24,4 @@ steps:
     inlineScript: |
       az acr login --name Dockerchiedo
       az acr build --registry Dockerchiedo --image $(imageName):latest .
-    workingDirectory: $(Build.SourcesDirectory)
+    workingDirectory: $(Build.SourcesDirectory)/Dockerfile
