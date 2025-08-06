@@ -17,7 +17,7 @@ provider "azurerm" {
 
 terraform {
   backend "azurerm" {
-    resource_group_name  = "statefile-rhg"
+    resource_group_name  = "statefile-rg"
     storage_account_name = "statefilechiedo"
     container_name       = "docker-container"
     key                  = "terraform.tfstate"
