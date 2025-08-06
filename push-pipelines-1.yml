@@ -16,6 +16,13 @@ steps:
   inputs:
     targetType: 'inline'
     script: 'pwd'
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      # Write your commands here
+      
+      ls /home/vsts/work/1/s
 
 - task: DockerInstaller@0
   inputs:
