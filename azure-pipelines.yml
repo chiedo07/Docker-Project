@@ -1,5 +1,5 @@
 trigger:
-- main  # or your target branch
+- none  # or your target branch
 
 pool:
   vmImage: 'ubuntu-latest'
