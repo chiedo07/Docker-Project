@@ -8,7 +8,7 @@ pool:
 variables:
   acrName: 'dockerchiedo'  # ✅ change to your ACR name (not the full URL)
   acrLoginServer: '$acrName.azurecr.io'
-  imageName: 'dockerImage'
+  imageName: 'dockerimage'
   imageTag: 'latest'
 
 steps:
@@ -40,10 +40,10 @@ steps:
        az acr login --name $(acrName)
 
        echo "Building docker image..."
-       docker build -t $(acrName).azurecr.io/$(imagename):$(imageTag) .
+       docker build -t $(acrName).azurecr.io/$(imagename):$(imagetag) .
 
        echo "Pushing Docker image..."
-       docker push $(acrName).azurecr.io/$(imagename):$(imageTag)
+       docker push $(acrName).azurecr.io/$(imagename):$(imagetag)
     workingDirectory: $(Build.SourcesDirectory)/project-2-cicd-pipeline
 
 #ACR_NAME=$(ACR_NAME)
