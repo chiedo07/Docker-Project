@@ -13,7 +13,7 @@ steps:
 - checkout: self  # ✅ Make sure you're checking out your repo
 - script: |
     echo "Listing source directory..."
-    ls -la $(Build.SourcesDirectory)/Dockerfile
+    ls -la $(Build.SourcesDirectory)
   displayName: 'Debug: List Source Directory'
 
 - task: AzureCLI@2
