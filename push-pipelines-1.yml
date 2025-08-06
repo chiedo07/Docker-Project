@@ -5,7 +5,7 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  acrName: 'Dockerchiedo'
+  acrName: 'dockerchiedo'
   imageName: 'myapp'
 
 
