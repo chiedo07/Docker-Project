@@ -38,8 +38,8 @@ steps:
     inlineScript: |
       echo "Logging in to ACR..."
       az acr login --name ${{ variables.acrName }}
-      docker build -t $(acrName).azurecr.io/$(imageName):$(imageTag) .
-      docker push $(acrName).azurecr.io/$IMAGE_NAME
+      docker build -t $(acrName).azurecr.io/$(imagchi):$(imageTag) .
+      docker push $(acrName).azurecr.io/$imagchi
     workingDirectory: $/home/vsts/work/1/s/project-2-cicd-pipeline/Dockerfile
 
 
