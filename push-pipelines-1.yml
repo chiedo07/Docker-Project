@@ -12,6 +12,11 @@ variables:
   imageTag: 'latest'
 
 steps:
+
+- task: DockerInstaller@0
+  inputs:
+    dockerVersion: '17.09.0-ce'
+
 - task: AzureCLI@2
   displayName: 'Login to Azure'
   inputs:
@@ -22,15 +27,18 @@ steps:
       echo "Logging in to ACR..."
       az acr login --name ${{ variables.acrName }}
 
-- task: DockerInstaller@0
-  inputs:
-    dockerVersion: '17.09.0-ce'
-- task: Docker@2
-  displayName: 'Build and Push Docker Image'
-  inputs:
-    containerRegistry: '<chiedozie>'  # 🔁 must allow Docker push to ACR
-    repository: '$(imageName)'
-    command: 'buildAndPush'
-    Dockerfile: '**/Dockerfile'   # Adjust path if needed
-    tags: |
-      $(imageTag)
+
+ACR_NAME=$(ACR_NAME)
+IMAGE_NAME=businessmonitorapp:latest
+
+# Login to Azure Container Registry
+az acr login --name $ACR_NAME
+
+# Build the Docker image
+docker build -f _Sage_cloudops-hcm-fr-iac-edi-repo/build/docker/BusinessMonitoring/App/Dockerfile -t $ACR_NAME.azurecr.io/$IMAGE_NAME .
+
+# Push the Docker image to ACR
+docker push $ACR_NAME.azurecr.io/$IMAGE_NAME
+
+# Output the image name
+echo "##vso[task.setvariable variable=imageName]$ACR_NAME.azurecr.io/$IMAGE_NAME"
