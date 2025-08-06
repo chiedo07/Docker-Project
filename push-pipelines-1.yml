@@ -38,8 +38,8 @@ steps:
     inlineScript: |
       echo "Logging in to ACR..."
       az acr login --name ${{ variables.acrName }}
-      docker build -f _Sage_cloudops-hcm-fr-iac-edi-repo/build/docker/BusinessMonitoring/App/Dockerfile -t $ACR_NAME.azurecr.io/$IMAGE_NAME .
-      docker push $ACR_NAME.azurecr.io/$IMAGE_NAME
+      docker build -f /home/vsts/work/1/s/project-2-cicd-pipeline/Dockerfile
+      docker push $acrName.azurecr.io/$IMAGE_NAME
 
 
 #ACR_NAME=$(ACR_NAME)
