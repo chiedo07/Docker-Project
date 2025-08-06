@@ -11,10 +11,10 @@ variables:
 steps:
 - task: AzureCLI@2
   inputs:
-    azureSubscription: '<Your-Service-Connection-Name>'  # Replace with your actual service connection name
+    azureSubscription: 'Azure-chiedo'  # Replace with your actual service connection name
     scriptType: 'bash'
     scriptLocation: 'inlineScript'
     inlineScript: |
-      az acr login --name $(acrName)
-      az acr build --registry $(acrName) --image $(imageName):latest .
+      az acr login --name Dockerchiedo
+      az acr build --registry Dockerchiedo --image $(imageName):latest .
     workingDirectory: $(Build.SourcesDirectory)
