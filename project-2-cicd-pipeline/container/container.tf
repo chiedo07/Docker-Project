@@ -36,7 +36,6 @@ resource "azurerm_container_app" "app" {
   name                         = "chiedo-container-app"
   container_app_environment_id = azurerm_container_app_environment.env.id
   resource_group_name          = azurerm_resource_group.rg.name
-  location                     = azurerm_resource_group.rg.location
   revision_mode                = "Single"
 
   template {
@@ -44,7 +43,7 @@ resource "azurerm_container_app" "app" {
       name   = "mycontainer"
       image  = "dockerchiedo.azurecr.io/dockerimage:latest"
       cpu    = 0.5
-      memory = "1.0Gi"
+      memory = "1Gi"
     }
   }
 
