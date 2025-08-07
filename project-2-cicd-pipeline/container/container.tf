@@ -20,6 +20,7 @@ terraform {
     container_name       = "statefile-container"
     key                  = "terraform.tfstate"
   }
+}
 resource "azurerm_resource_group" "rg" {
   name     = "container-rg"
   location = "westeurope"
