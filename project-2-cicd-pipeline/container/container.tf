@@ -48,10 +48,16 @@ resource "azurerm_container_app_environment" "env" {
   log_analytics_workspace_id = azurerm_log_analytics_workspace.law.id
 }
 
+resource "azurerm_user_assigned_identity" "container_identity" {
+  location            = azurerm_resource_group.rg.location
+  name                = "container-identity"
+  resource_group_name = azurerm_resource_group.rg.name
+}
+
 resource "azurerm_role_assignment" "acr_pull" {
   scope                = data.azurerm_container_registry.acr.id
   role_definition_name = "AcrPull"
-  principal_id         = azurerm_container_app.app.identity[0].principal_id
+  principal_id         = azurerm_user_assigned_identity.container_identity.principal_id
 }
 
 resource "azurerm_container_app" "app" {
@@ -62,7 +68,8 @@ resource "azurerm_container_app" "app" {
 
   
   identity {
-    type = "SystemAssigned"
+    type         = "UserAssigned"
+    identity_ids = [azurerm_user_assigned_identity.container_identity.id]
   }
   template {
     container {
