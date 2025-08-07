@@ -46,11 +46,6 @@ resource "azurerm_container_app" "app" {
       cpu    = 0.5
       memory = "1.0Gi"
     }
-
-    scale {
-      min_replicas = 1
-      max_replicas = 2
-    }
   }
 
   ingress {
