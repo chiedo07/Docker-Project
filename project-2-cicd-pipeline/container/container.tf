@@ -23,10 +23,10 @@ terraform {
 }
 resource "azurerm_resource_group" "rg" {
   name     = "container-rg"
-  location = "westeurope"
+  location = "East US"
 }
 resource "azurerm_container_registry" "acr" {
-  name                = "dockerchiedo"
+  name                = "dockerchiedo-latest"
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
   sku                 = "Basic"
