@@ -1,0 +1,53 @@
+trigger:
+- none  # or replace with your branch name, e.g., 'main'
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  - group: Docker-Project-Variable   # your variable group with ARM credentials
+
+steps:
+# 📦 Install Terraform
+- task: TerraformInstaller@1
+  displayName: 'Install Terraform'
+  inputs:
+   terraformVersion: 'latest'
+
+# 🖥️ Basic Bash Commands
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      ls
+      pwd
+
+# 📂 Terraform Init
+- script: terraform init
+  displayName: 'Terraform Init'
+  workingDirectory: $(Build.SourcesDirectory)/project-2-cicd-pipeline
+  env:
+    ARM_CLIENT_ID: $(ARM_CLIENT_ID)
+    ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+    ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
+    ARM_TENANT_ID: $(ARM_TENANT_ID)
+
+# 🔍 Terraform Plan
+- script: terraform plan
+  displayName: 'Terraform Plan'
+  workingDirectory: $(Build.SourcesDirectory)/project-2-cicd-pipeline
+  env:
+    ARM_CLIENT_ID: $(ARM_CLIENT_ID)
+    ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+    ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
+    ARM_TENANT_ID: $(ARM_TENANT_ID)
+
+# 🚀 Terraform Apply
+- script: terraform apply -auto-approve
+  displayName: 'Terraform Apply'
+  workingDirectory: $(Build.SourcesDirectory)/project-2-cicd-pipeline
+  env:
+    ARM_CLIENT_ID: $(ARM_CLIENT_ID)
+    ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+    ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
+    ARM_TENANT_ID: $(ARM_TENANT_ID)

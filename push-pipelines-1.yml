@@ -1,0 +1,63 @@
+trigger:
+- none  # or your target branch
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+
+variables:
+  acrName: 'dockerchiedo'  # ✅ change to your ACR name (not the full URL)
+  acrLoginServer: '$acrName.azurecr.io'
+  imageName: 'dockerimage'
+  imageTag: 'latest'
+
+steps:
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: 'pwd'
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      # Write your commands here
+      
+      ls /home/vsts/work/1/s/project-2-cicd-pipeline
+
+
+- task: DockerInstaller@0
+  inputs:
+    dockerVersion: '17.09.0-ce'
+
+- task: AzureCLI@2
+  displayName: 'Login to Azure'
+  inputs:
+    azureSubscription: 'azure-chiedo'  # 🔁 must have access to RG 'chid'
+    scriptType: 'bash'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+       echo "Logging in to ACR..."
+       az acr login --name $(acrName)
+
+       echo "Building docker image..."
+       docker build -t $(acrName).azurecr.io/$(imagename):$(imagetag) .
+
+       echo "Pushing Docker image..."
+       docker push $(acrName).azurecr.io/$(imagename):$(imagetag)
+    workingDirectory: $(Build.SourcesDirectory)/project-2-cicd-pipeline
+
+#ACR_NAME=$(ACR_NAME)
+#IMAGE_NAME=businessmonitorapp:latest
+
+# Login to Azure Container Registry
+#az acr login --name $ACR_NAME
+
+# Build the Docker image
+
+# Push the Docker image to ACR
+#docker push $ACR_NAME.azurecr.io/$IMAGE_NAME
+
+# Output the image name
+#echo "##vso[task.setvariable variable=imageName]$ACR_NAME.azurecr.io/$IMAGE_NAME"
+
+
