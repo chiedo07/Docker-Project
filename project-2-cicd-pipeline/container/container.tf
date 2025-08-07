@@ -37,7 +37,7 @@ resource "azurerm_container_app" "app" {
   container_app_environment_id = azurerm_container_app_environment.env.id
   resource_group_name          = azurerm_resource_group.rg.name
   location                     = azurerm_resource_group.rg.location
-  revision_mode                = "Single"
+  revision_mode                = "Multiple"
 
   template {
     container {
@@ -46,17 +46,20 @@ resource "azurerm_container_app" "app" {
       cpu    = 0.5
       memory = "1.0Gi"
     }
-
-    scale {
-      min_replicas = 1
-      max_replicas = 2
-    }
   }
 
   ingress {
     external_enabled = true
     target_port      = 80
-    transport        = "auto"
+    traffic_weight {
+      latest_revision = true
+      percentage      = 100
+    }
+  }
+
+  scale {
+    min_replicas = 1
+    max_replicas = 2
   }
 
   tags = {
