@@ -59,7 +59,8 @@ template {
       min_replicas = 1
       max_replicas = 2
     }
-}  ingress {
+}  
+  ingress {
     external_enabled = true
     target_port      = 80
     transport        = "auto"
