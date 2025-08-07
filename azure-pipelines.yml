@@ -20,9 +20,8 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      # Write your commands here
       
-      echo 'Hello world'
+      ls
       pwd
 - task: AzureCLI@2
   inputs:
