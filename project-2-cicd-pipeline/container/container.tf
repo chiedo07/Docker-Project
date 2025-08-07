@@ -36,7 +36,6 @@ resource "azurerm_container_app_environment" "env" {
   name                       = "container-env"
   location                   = azurerm_resource_group.rg.location
   resource_group_name        = azurerm_resource_group.rg.name
-  log_analytics_workspace_id = azurerm_log_analytics_workspace.law.id
 }
 
 resource "azurerm_user_assigned_identity" "container_identity" {
