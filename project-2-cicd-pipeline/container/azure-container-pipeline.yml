@@ -1,0 +1,44 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  azureServiceConnection: 'Azure-chiedo'  # Replace with your actual Azure service connection
+  workingDir: Docker-Project/container.tf
+   acrName:'dockerchiedo'  # ✅ change to your ACR name (not the full URL)
+  acrLoginServer: '$acrName.azurecr.io'
+  imageName: 'dockerimage'
+  imageTag: 'latest'
+
+
+steps:
+- task: TerraformInstaller@1
+  inputs:
+    terraformVersion: 'latest'
+
+- script: terraform --version
+  displayName: 'Check Terraform Version'
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      
+      ls
+      pwd
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: $(azureServiceConnection)
+    scriptType: bash
+    scriptLocation: inlineScript
+    workingDirectory: $(System.DefaultWorkingDirectory)/$(workingDir)
+    inlineScript: |
+      echo "🔧 Initializing Terraform..."
+      terraform init
+
+      echo "📐 Planning Terraform deployment..."
+      terraform plan -out=tfplan
+
+      echo "🚀 Applying Terraform plan..."
+      terraform apply -auto-approve tfplan

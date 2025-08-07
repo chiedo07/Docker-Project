@@ -1,44 +1,53 @@
 trigger:
-- main
+- none  # or replace with your branch name, e.g., 'main'
 
 pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  azureServiceConnection: 'Azure-chiedo'  # Replace with your actual Azure service connection
-  workingDir: Docker-Project/container.tf
-   acrName:'dockerchiedo'  # ✅ change to your ACR name (not the full URL)
-  acrLoginServer: '$acrName.azurecr.io'
-  imageName: 'dockerimage'
-  imageTag: 'latest'
-
+  - group: Docker-Project-Variable   # your variable group with ARM credentials
 
 steps:
+# 📦 Install Terraform
 - task: TerraformInstaller@1
+  displayName: 'Install Terraform'
   inputs:
-    terraformVersion: 'latest'
+   terraformVersion: 'latest'
 
-- script: terraform --version
-  displayName: 'Check Terraform Version'
+# 🖥️ Basic Bash Commands
 - task: Bash@3
   inputs:
     targetType: 'inline'
     script: |
-      
       ls
       pwd
-- task: AzureCLI@2
-  inputs:
-    azureSubscription: $(azureServiceConnection)
-    scriptType: bash
-    scriptLocation: inlineScript
-    workingDirectory: $(System.DefaultWorkingDirectory)/$(workingDir)
-    inlineScript: |
-      echo "🔧 Initializing Terraform..."
-      terraform init
 
-      echo "📐 Planning Terraform deployment..."
-      terraform plan -out=tfplan
+# 📂 Terraform Init
+- script: terraform init
+  displayName: 'Terraform Init'
+  workingDirectory: $(Build.SourcesDirectory)/project-2-cicd-pipeline
+  env:
+    ARM_CLIENT_ID: $(ARM_CLIENT_ID)
+    ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+    ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
+    ARM_TENANT_ID: $(ARM_TENANT_ID)
 
-      echo "🚀 Applying Terraform plan..."
-      terraform apply -auto-approve tfplan
+# 🔍 Terraform Plan
+- script: terraform plan
+  displayName: 'Terraform Plan'
+  workingDirectory: $(Build.SourcesDirectory)/project-2-cicd-pipeline
+  env:
+    ARM_CLIENT_ID: $(ARM_CLIENT_ID)
+    ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+    ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
+    ARM_TENANT_ID: $(ARM_TENANT_ID)
+
+# 🚀 Terraform Apply
+- script: terraform apply -auto-approve
+  displayName: 'Terraform Apply'
+  workingDirectory: $(Build.SourcesDirectory)/project-2-cicd-pipeline
+  env:
+    ARM_CLIENT_ID: $(ARM_CLIENT_ID)
+    ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+    ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
+    ARM_TENANT_ID: $(ARM_TENANT_ID)
