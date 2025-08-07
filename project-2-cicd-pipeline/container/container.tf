@@ -12,13 +12,11 @@ provider "azurerm" {
   features {}
 }
 
-# Resource Group
 resource "azurerm_resource_group" "rg" {
   name     = "container-rg"
   location = "westeurope"
 }
 
-# Log Analytics Workspace
 resource "azurerm_log_analytics_workspace" "law" {
   name                = "container-law"
   location            = azurerm_resource_group.rg.location
@@ -27,7 +25,6 @@ resource "azurerm_log_analytics_workspace" "law" {
   retention_in_days   = 30
 }
 
-# Container App Environment
 resource "azurerm_container_app_environment" "env" {
   name                       = "container-env"
   location                   = azurerm_resource_group.rg.location
@@ -35,7 +32,6 @@ resource "azurerm_container_app_environment" "env" {
   log_analytics_workspace_id = azurerm_log_analytics_workspace.law.id
 }
 
-# Container App
 resource "azurerm_container_app" "app" {
   name                         = "chiedo-container-app"
   container_app_environment_id = azurerm_container_app_environment.env.id
@@ -49,11 +45,11 @@ resource "azurerm_container_app" "app" {
       image  = "dockerchiedo.azurecr.io/dockerimage:latest"
       cpu    = 0.5
       memory = "1.0Gi"
+    }
 
-      scale {
-        min_replicas = 1
-        max_replicas = 2
-      }
+    scale {
+      min_replicas = 1
+      max_replicas = 2
     }
   }
 
@@ -61,11 +57,6 @@ resource "azurerm_container_app" "app" {
     external_enabled = true
     target_port      = 80
     transport        = "auto"
-  }
-
-  traffic {
-    percentage      = 100
-    latest_revision = true
   }
 
   tags = {
