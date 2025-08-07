@@ -7,6 +7,7 @@ pool:
 variables:
   - group: Docker-Project-Variable   # your variable group with ARM credentials
 
+
 steps:
 # 📦 Install Terraform
 - task: TerraformInstaller@1
