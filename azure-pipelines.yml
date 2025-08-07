@@ -6,7 +6,7 @@ pool:
 
 variables:
   azureServiceConnection: 'Azure-chiedo'  # Replace with your actual Azure service connection
-  workingDir: 
+  workingDir: project-2-cicd-pipeline/container.tf
 
 
 steps:
