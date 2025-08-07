@@ -25,13 +25,6 @@ resource "azurerm_resource_group" "rg" {
   name     = "container-rg"
   location = "East US"
 }
-resource "azurerm_container_registry" "acr" {
-  name                = "dockerchiedo-latest"
-  resource_group_name = azurerm_resource_group.rg.name
-  location            = azurerm_resource_group.rg.location
-  sku                 = "Basic"
-  admin_enabled       = false
-}
 
 
 resource "azurerm_log_analytics_workspace" "law" {
