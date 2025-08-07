@@ -6,7 +6,7 @@ pool:
 
 variables:
   azureServiceConnection: 'Azure-chiedo'  # Replace with your actual Azure service connection
-  workingDir: project-2-cicd-pipeline/container.tf
+  workingDir: Docker-Project/container.tf
    acrName:'dockerchiedo'  # ✅ change to your ACR name (not the full URL)
   acrLoginServer: '$acrName.azurecr.io'
   imageName: 'dockerimage'
