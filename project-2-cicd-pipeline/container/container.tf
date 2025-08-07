@@ -13,6 +13,13 @@ provider "azurerm" {
 skip_provider_registration = true
 }
 
+terraform {
+  backend "azurerm" {
+    resource_group_name  = "statefile-cont"
+    storage_account_name = "statefilecont"
+    container_name       = "statefile-container"
+    key                  = "terraform.tfstate"
+  }
 resource "azurerm_resource_group" "rg" {
   name     = "container-rg"
   location = "westeurope"
