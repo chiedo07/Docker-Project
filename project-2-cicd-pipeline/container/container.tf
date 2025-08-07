@@ -10,7 +10,7 @@ terraform {
 
 provider "azurerm" {
   features {}
-skip_provider_registration = true
+  skip_provider_registration = true
 }
 
 terraform {
@@ -55,16 +55,21 @@ resource "azurerm_container_app" "app" {
   container_app_environment_id = azurerm_container_app_environment.env.id
   resource_group_name          = azurerm_resource_group.rg.name
   revision_mode                = "Single"
-
   
   identity {
     type         = "UserAssigned"
     identity_ids = [azurerm_user_assigned_identity.container_identity.id]
   }
+
+  registry {
+    server   = data.azurerm_container_registry.acr.login_server
+    identity = azurerm_user_assigned_identity.container_identity.id
+  }
+
   template {
     container {
       name   = "mycontainer"
-      image = "${data.azurerm_container_registry.acr.login_server}/dockerimage:latest"
+      image  = "${data.azurerm_container_registry.acr.login_server}/dockerimage:latest"
       cpu    = 0.5
       memory = "1Gi"
     }
@@ -73,12 +78,14 @@ resource "azurerm_container_app" "app" {
   ingress {
     external_enabled = true
     target_port      = 80
-
     traffic_weight {
       latest_revision = true
       percentage      = 100
     }
   }
+
+  # Add explicit dependency to ensure role assignment is created first
+  depends_on = [azurerm_role_assignment.acr_pull]
 
   tags = {
     environment = "dev"
