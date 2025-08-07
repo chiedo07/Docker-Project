@@ -1,53 +1,41 @@
 trigger:
-- none  # or replace with your branch name, e.g., 'main'
+- main
 
 pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  - group: Docker-Project-Variable   # your variable group with ARM credentials
+  azureServiceConnection: 'Azure-chiedo'  # Replace with your actual Azure service connection
+  workingDir: 
+
 
 steps:
-# 📦 Install Terraform
 - task: TerraformInstaller@1
-  displayName: 'Install Terraform'
   inputs:
-   terraformVersion: 'latest'
+    terraformVersion: 'latest'
 
-# 🖥️ Basic Bash Commands
+- script: terraform --version
+  displayName: 'Check Terraform Version'
 - task: Bash@3
   inputs:
     targetType: 'inline'
     script: |
-      ls
+      # Write your commands here
+      
+      echo 'Hello world'
       pwd
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: $(azureServiceConnection)
+    scriptType: bash
+    scriptLocation: inlineScript
+    workingDirectory: $(System.DefaultWorkingDirectory)/$(workingDir)
+    inlineScript: |
+      echo "🔧 Initializing Terraform..."
+      terraform init
 
-# 📂 Terraform Init
-- script: terraform init
-  displayName: 'Terraform Init'
-  workingDirectory: $(Build.SourcesDirectory)/project-2-cicd-pipeline
-  env:
-    ARM_CLIENT_ID: $(ARM_CLIENT_ID)
-    ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
-    ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
-    ARM_TENANT_ID: $(ARM_TENANT_ID)
+      echo "📐 Planning Terraform deployment..."
+      terraform plan -out=tfplan
 
-# 🔍 Terraform Plan
-- script: terraform plan
-  displayName: 'Terraform Plan'
-  workingDirectory: $(Build.SourcesDirectory)/project-2-cicd-pipeline
-  env:
-    ARM_CLIENT_ID: $(ARM_CLIENT_ID)
-    ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
-    ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
-    ARM_TENANT_ID: $(ARM_TENANT_ID)
-
-# 🚀 Terraform Apply
-- script: terraform apply -auto-approve
-  displayName: 'Terraform Apply'
-  workingDirectory: $(Build.SourcesDirectory)/project-2-cicd-pipeline
-  env:
-    ARM_CLIENT_ID: $(ARM_CLIENT_ID)
-    ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
-    ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
-    ARM_TENANT_ID: $(ARM_TENANT_ID)
+      echo "🚀 Applying Terraform plan..."
+      terraform apply -auto-approve tfplan
