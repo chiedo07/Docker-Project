@@ -21,6 +21,12 @@ terraform {
     key                  = "terraform.tfstate"
   }
 }
+
+data "azurerm_container_registry" "acr" {
+  name                = "dockerchiedo"
+  resource_group_name = "docker-acr-rg"  
+}
+
 resource "azurerm_resource_group" "rg" {
   name     = "container-rg"
   location = "East US"
@@ -60,7 +66,7 @@ resource "azurerm_container_app" "app" {
   template {
     container {
       name   = "mycontainer"
-      image = "${azurerm_container_registry.acr.login_server}/dockerimage:latest"
+      image = "${data.azurerm_container_registry.acr.login_server}/dockerimage:latest"
       cpu    = 0.5
       memory = "1Gi"
     }
