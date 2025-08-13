@@ -26,7 +26,7 @@ steps:
 # 📂 Terraform Init
 - script: terraform init
   displayName: 'Terraform Init'
-  workingDirectory: $(Build.SourcesDirectory)/project-2-cicd-pipeline/container
+  workingDirectory: $(Build.SourcesDirectory)/project-2-cicd-pipeline/
   env:
     ARM_CLIENT_ID: $(ARM_CLIENT_ID)
     ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
@@ -36,7 +36,7 @@ steps:
 # 🔍 Terraform Plan
 - script: terraform plan
   displayName: 'Terraform Plan'
-  workingDirectory: $(Build.SourcesDirectory)/project-2-cicd-pipeline/container
+  workingDirectory: $(Build.SourcesDirectory)/project-2-cicd-pipeline/
   env:
     ARM_CLIENT_ID: $(ARM_CLIENT_ID)
     ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
@@ -46,7 +46,7 @@ steps:
 # 🚀 Terraform Apply
 - script: terraform apply -auto-approve
   displayName: 'Terraform Apply'
-  workingDirectory: $(Build.SourcesDirectory)/project-2-cicd-pipeline/container
+  workingDirectory: $(Build.SourcesDirectory)/project-2-cicd-pipeline/
   env:
     ARM_CLIENT_ID: $(ARM_CLIENT_ID)
     ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
