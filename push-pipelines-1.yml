@@ -32,7 +32,7 @@ steps:
 - task: AzureCLI@2
   displayName: 'Login to Azure'
   inputs:
-    azureSubscription: 'azure-chiedo'  # 🔁 must have access to RG 'chid'
+    azureSubscription: 'second-dep'  # 🔁 must have access to RG 'chid'
     scriptType: 'bash'
     scriptLocation: 'inlineScript'
     inlineScript: |
