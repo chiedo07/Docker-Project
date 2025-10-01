@@ -1,4 +1,4 @@
-# My Docker Web App with Automated Deployment
+# My Docker Web App with Automated Deployment (Terraform)
 
 A modern Node.js web application demonstrating DevOps best practices with automated testing, containerization, and CI/CD deployment to Azure using GitHub Actions.
 
